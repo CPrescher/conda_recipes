@@ -8,7 +8,7 @@ source:
 
 build:
   entry_points:
-    - glassure = glassure.glassure:main
+    - glassure = glassure.run:main
 
 app:
   entry: glassure
