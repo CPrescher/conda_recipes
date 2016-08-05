@@ -1,0 +1,67 @@
+package:
+  name: lmfit
+  version: "0.9.4"
+
+source:
+  fn: lmfit-0.9.4.tar.gz
+  url: https://files.pythonhosted.org/packages/06/a0/0214bdf9d222a0c5604e2e86fbec6f969c4bea8b8e43d585e75a73729f12/lmfit-0.9.4.tar.gz
+  md5: d890f85f4263dc47360f1b32bb0c3798
+#  patches:
+   # List any patch files here
+   # - fix.patch
+
+# build:
+  # noarch_python: True
+  # preserve_egg_dir: True
+  # entry_points:
+    # Put any entry points (scripts to be generated automatically) here. The
+    # syntax is module:function.  For example
+    #
+    # - lmfit = lmfit:main
+    #
+    # Would create an entry point called lmfit that calls lmfit.main()
+
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  # number: 1
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+
+  run:
+    - python
+    - numpy
+    - scipy
+
+test:
+  # Python imports
+  imports:
+    - lmfit
+    - lmfit.ui
+    - lmfit.uncertainties
+
+  # commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: http://lmfit.github.io/lmfit-py/
+  license: BSD
+  summary: 'Least-Squares Minimization with Bounds and Constraints'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

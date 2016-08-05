@@ -1,0 +1,68 @@
+package:
+  name: fabio
+  version: "0.4.0"
+
+source:
+  fn: fabio-0.4.0.tar.gz
+  url: https://files.pythonhosted.org/packages/a2/c6/684095aa079cadd9e3f68f95084cccd7601f744782086b14a516b166f37a/fabio-0.4.0.tar.gz
+  md5: 146804f6aad9d75b49257cc123d6d5c6
+#  patches:
+   # List any patch files here
+   # - fix.patch
+
+# build:
+  # noarch_python: True
+  # preserve_egg_dir: True
+  # entry_points:
+    # Put any entry points (scripts to be generated automatically) here. The
+    # syntax is module:function.  For example
+    #
+    # - fabio = fabio:main
+    #
+    # Would create an entry point called fabio that calls fabio.main()
+
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  # number: 1
+
+requirements:
+  build:
+    - python
+    - numpy
+    - cython
+
+  run:
+    - python
+    - numpy 
+    - cython
+
+test:
+  # Python imports
+  imports:
+    - fabio
+    - fabio.benchmark
+    - fabio.ext
+    - fabio.test
+    - fabio.third_party
+
+  # commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: http://fable.wiki.sourceforge.net/fabio
+  license: GNU General Public License v2 or later (GPLv2+)
+  summary: 'Image IO for fable'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml

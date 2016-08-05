@@ -1,0 +1,45 @@
+package:
+  name: glassure
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+source:
+  git_url: https://github.com/luindil/glassure
+  git_rev: develop
+
+build:
+  entry_points:
+    - glassure = glassure.glassure:main
+
+app:
+  entry: glassure
+  type: desk
+  summary: "Glassure"
+
+requirements:
+  build:
+    - python
+    - numpy
+    - scipy
+    - pyqt
+    - pyqtgraph
+    - pandas
+    - lmfit
+
+  run:
+    - python
+    - numpy
+    - scipy
+    - pyqt
+    - pandas
+    - pyqtgraph
+    - lmfit
+
+test:
+  # Python imports
+  imports:
+    - glassure
+
+about:
+  home: https://github.com/Luindil/Glassure
+  license: MIT License
+  summary: 'An API and GUI program for data analysis of total x-ray diffraction data. '
