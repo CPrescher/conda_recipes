@@ -1,6 +1,5 @@
 #!/bin/bash
-
-$PYTHON setup.py install 
+CC=gcc-5 $PYTHON setup.py install 
 
 # Add more build steps here, if they are necessary.
 
