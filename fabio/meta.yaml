@@ -29,12 +29,14 @@ source:
 requirements:
   build:
     - python
+    - setuptools ==23.0
     - numpy
     - cython
 
   run:
     - python
-    - numpy 
+    - numpy
+    - setuptools ==23.0
     - cython
 
 test:

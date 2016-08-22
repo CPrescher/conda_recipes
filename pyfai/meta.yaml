@@ -29,6 +29,7 @@ source:
 requirements:
   build:
     - python
+    - setuptools ==23.0
     - numpy
     - fabio
     - scipy
@@ -39,6 +40,7 @@ requirements:
     - matplotlib
   run:
     - python
+    - setuptools ==23.0
     - numpy
     - fabio
     - scipy
