@@ -1,0 +1,55 @@
+package:
+  name: dioptas
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+
+source:
+  git_url: https://github.com/Dioptas/Dioptas
+  git_rev: develop
+
+build:
+  entry_points:
+    - dioptas = dioptas:main
+
+app:
+  entry: dioptas
+  type: desk
+  summary: "Dioptas"
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+    - pyqt
+    - pyqtgraph
+    - lmfit
+    - fabio
+    - pyfai
+    - pycifrw
+    - future
+    - scikit-image
+
+  run:
+    - python
+    - setuptools
+    - numpy
+    - scipy
+    - pyqt
+    - pyqtgraph
+    - lmfit
+    - fabio
+    - pyfai
+    - pycifrw
+    - future
+    - scikit-image
+
+test:
+  # Python imports
+  imports:
+    - dioptas
+
+about:
+  home: https://github.com/Dioptas/Dioptas
+  license: GPL3 license
+  summary: 'GUI program for reduction and exploration of 2D X-ray diffraction data'
