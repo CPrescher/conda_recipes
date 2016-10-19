@@ -29,6 +29,7 @@ requirements:
     - pycifrw
     - future
     - scikit-image
+    - qtpy
 
   run:
     - python
@@ -43,6 +44,7 @@ requirements:
     - pycifrw
     - future
     - scikit-image
+    - qtpy
 
 test:
   # Python imports
