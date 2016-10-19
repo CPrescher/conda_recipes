@@ -1,10 +1,13 @@
 package:
   name: pyqtgraph
-  version: "0.9.10.231"
+  version: "0.9.11_cp"
 
 source:
-  git_url: https://github.com/pyqtgraph/pyqtgraph
-  git_rev: develop
+  git_url: https://github.com/Luindil/pyqtgraph
+  git_rev: pyqt5_conda
+
+build:
+  number: 0
 #  patches:
    # List any patch files here
    # - fix.patch
