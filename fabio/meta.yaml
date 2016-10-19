@@ -1,11 +1,13 @@
 package:
   name: fabio
   version: "0.4.0"
+  
+build:
+  number: 1
 
 source:
-  fn: fabio-0.4.0.tar.gz
-  url: https://files.pythonhosted.org/packages/a2/c6/684095aa079cadd9e3f68f95084cccd7601f744782086b14a516b166f37a/fabio-0.4.0.tar.gz
-  md5: 146804f6aad9d75b49257cc123d6d5c6
+  git_url: https://github.com/silx-kit/fabio
+  git_rev: master
 #  patches:
    # List any patch files here
    # - fix.patch
@@ -29,14 +31,14 @@ source:
 requirements:
   build:
     - python
-    - setuptools ==23.0
+    - setuptools
     - numpy
     - cython
 
   run:
     - python
     - numpy
-    - setuptools ==23.0
+    - setuptools
     - cython
 
 test:
