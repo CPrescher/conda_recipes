@@ -7,6 +7,7 @@ source:
   git_rev: develop
 
 build:
+  number: 2
   entry_points:
     - glassure = glassure.run:main
 
@@ -20,7 +21,7 @@ requirements:
     - python
     - numpy
     - scipy
-    - pyqt
+    - pyqt <=4.11.4
     - pyqtgraph
     - pandas
     - lmfit
@@ -29,7 +30,7 @@ requirements:
     - python
     - numpy
     - scipy
-    - pyqt
+    - pyqt <=4.11.4
     - pandas
     - pyqtgraph
     - lmfit
