@@ -1,10 +1,10 @@
 package:
   name: pyqtgraph
-  version: "0.9.11_cp"
+  version: "0.10.0"
 
 source:
-  git_url: https://github.com/Luindil/pyqtgraph
-  git_rev: pyqt5_conda
+  git_url: https://github.com/CPrescher/pyqtgraph
+  git_rev: fix_np_expoerter_error
 
 build:
   number: 0
