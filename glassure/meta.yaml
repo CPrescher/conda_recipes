@@ -21,7 +21,7 @@ requirements:
     - python
     - numpy
     - scipy
-    - pyqt <=4.11.4
+    - pyqt 
     - pyqtgraph
     - pandas
     - lmfit
@@ -30,7 +30,7 @@ requirements:
     - python
     - numpy
     - scipy
-    - pyqt <=4.11.4
+    - pyqt 
     - pandas
     - pyqtgraph
     - lmfit
