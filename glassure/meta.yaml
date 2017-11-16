@@ -3,11 +3,11 @@ package:
   version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
 
 source:
-  git_url: https://github.com/luindil/glassure
+  git_url: https://github.com/CPrescher/glassure
   git_rev: develop
 
 build:
-  number: 2
+  number: 3
   entry_points:
     - glassure = glassure.run:main
 
@@ -41,6 +41,6 @@ test:
     - glassure
 
 about:
-  home: https://github.com/Luindil/Glassure
+  home: https://github.com/CPrescher/Glassure
   license: MIT License
   summary: 'An API and GUI program for data analysis of total x-ray diffraction data. '
