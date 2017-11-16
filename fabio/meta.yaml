@@ -7,7 +7,7 @@ build:
 
 source:
   git_url: https://github.com/silx-kit/fabio
-  git_rev: master
+  git_rev: v0.4.0
 #  patches:
    # List any patch files here
    # - fix.patch
