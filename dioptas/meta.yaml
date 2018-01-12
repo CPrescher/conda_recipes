@@ -4,7 +4,7 @@ package:
 
 source:
   git_url: https://github.com/Dioptas/Dioptas
-  git_rev: develop 
+  git_rev: master 
 
 build:
   entry_points:
