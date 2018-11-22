@@ -1,33 +1,26 @@
-{% set name = "silx" %}
-{% set version = "0.8.0" %}
-{% set sha256 = "bde47ca309c3541333ea3dbbc2dedbe839f04f166424685797daad4dc073a7b6" %}
-
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: silx
+  version: 0.9.0
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  git_url: https://github.com/silx-kit/silx.git
+  git_rev: v0.9.0 
 
 build:
-  number: 0
+  number: 1
   script: python setup.py build install --single-version-externally-managed --record record.txt
 
 requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
   host:
     - python
     - setuptools
     - numpy
+    - cython
 
   run:
     - python
     - setuptools
-    - {{ pin_compatible('numpy') }}
+    - numpy
     - fabio >=0.4
     - h5py
     - mako
@@ -57,9 +50,4 @@ about:
     reading/writing different file formats, data reduction routines and a set
     of Qt widgets to browse and visualize data.
   doc_url: https://pythonhosted.org/silx/
-  dev_url: https://github.com/silx-kit/silx
-
-extra:
-  recipe-maintainers:
-    - CJ-Wright
-    - tschoonj
+dev_url: https://github.com/silx-kit/silx
