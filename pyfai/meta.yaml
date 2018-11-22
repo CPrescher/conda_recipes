@@ -1,60 +1,81 @@
 package:
   name: pyfai
-  version: 0.14.2
+  version: 0.15.0
 
 source:
   git_url: https://github.com/silx-kit/pyFAI.git
-  git_rev: v0.14.2 
+  git_rev: v0.15.0
 
-#  patches:
-   # List any patch files here
-   # - fix.patch
-
-# build:
-  # noarch_python: True
-  # preserve_egg_dir: True
-  # entry_points:
-    # Put any entry points (scripts to be generated automatically) here. The
-    # syntax is module:function.  For example
-    #
-    # - pyfai = pyfai:main
-    #
-    # Would create an entry point called pyfai that calls pyfai.main()
-
-
-  # If this is a new build for the same version, increment the build
-  # number. If you do not include this key, it defaults to 0.
-  # number: 1
+build:
+  number: 10
+  script: python setup.py build install  # [linux or win]
+  script: python setup.py build --no-openmp  && python setup.py install  # [osx]
+  entry_points:
+    - check_calib = pyFAI.app.check_calib:main
+    - detector2nexus = pyFAI.app.detector2nexus:main
+    - diff_map = pyFAI.app.diff_map:main
+    - diff_tomo = pyFAI.app.diff_tomo:main
+    - eiger-mask = pyFAI.app.eiger_mask:main
+    - MX-calibrate = pyFAI.app.mx_calibrate:main
+    - pyFAI-average = pyFAI.app.average:main
+    - pyFAI-benchmark = pyFAI.app.benchmark:main
+    - pyFAI-calib = pyFAI.app.calib:main
+    - pyFAI-calib2 = pyFAI.app.calib2:main
+    - pyFAI-drawmask = pyFAI.app.drawmask:main
+    - pyFAI-integrate = pyFAI.app.integrate:main
+    - pyFAI-recalib = pyFAI.app.recalib:main
+    - pyFAI-saxs = pyFAI.app.saxs:main
+    - pyFAI-waxs = pyFAI.app.waxs:main
 
 requirements:
   build:
     - python
     - setuptools
-    - numpy
-    - fabio
-    - scipy
-    - h5py
-    - pillow
-    - lxml
+    - numpy 1.11.*
     - cython
-    - matplotlib
+    - scipy
+    - fabio
+    - h5py
+    - vc 9  # [win and py27]
+    - vc 10  # [win and py34]
+    - vc 14  # [win and py>=35]
+
   run:
     - python
-    - setuptools
-    - numpy
+    - numpy >=1.11
     - fabio
     - scipy
     - h5py
     - pillow
     - lxml
-    - cython
     - matplotlib
-    
+    - vc 9  # [win and py27]
+    - vc 10  # [win and py34]
+    - vc 14  # [win and py>=35]
+
+test:
+  imports:
+    - pyFAI
+    - pyFAI.test
+    - pyFAI.third_party
+    - pyFAI.gui
+  commands:
+    - pyFAI-calib -h
+
 about:
-  home: https://github.com/kif/pyFAI
-  license: GPL
+  home: https://github.com/silx-kit/pyFAI/
+  license: GPL-3
+  license_file: LICENSES.txt
   summary: 'Python implementation of fast azimuthal integration'
 
-# See
-# http://docs.continuum.io/conda/build.html for
-# more information about meta.yaml
+  description: |
+    pyFAI is an azimuthal integration library that tries to be fast (as fast
+    as C and even more using OpenCL and GPU). It is based on histogramming of
+    the 2theta/Q positions of each (center of) pixel weighted by the intensity
+    of each pixel, but parallel version uses a SparseMatrix-DenseVector
+    multiplication. Neighboring output bins get also a contribution of pixels
+    next to the border thanks to pixel splitting. Finally pyFAI provides also
+    tools to calibrate the experimental setup using Debye-Scherrer rings of a
+    reference compound.
+  doc_url: http://pythonhosted.org/pyFAI/
+  dev_url: https://github.com/silx-kit/pyFAI/

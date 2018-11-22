@@ -1,22 +1,18 @@
+{% set name = "Dioptas" %}
+{% set version = "0.4.1" %}
+{% set sha256 = "5911464f2141f19720d8b987796d86344602737c9e4c34309d0b0dfd2b32d90b" %}
+
 package:
-  name: dioptas
-  version: {{ environ['GIT_DESCRIBE_TAG'] }}.post{{ environ['GIT_DESCRIBE_NUMBER'] }}
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/Dioptas/Dioptas
-  git_rev: master 
+  url: https://github.com/Dioptas/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-  entry_points:
-    - dioptas = dioptas:main
-
-app:
-  entry: dioptas
-  type: desk
-  summary: "Dioptas"
- 
-channels:
-    - cprescher
+  number: 0
+  script: python setup.py build install --single-version-externally-managed --record record.txt
 
 requirements:
   build:
@@ -56,5 +52,16 @@ test:
 
 about:
   home: https://github.com/Dioptas/Dioptas
-  license: GPL3 license
-  summary: 'GUI program for reduction and exploration of 2D X-ray diffraction data'
+  license: GPL3
+  license_family: GPL
+  license_file: copyright
+  summary: 'The silx project aims at providing a collection of Python packages
+  to support the development of data assessment, reduction and analysis
+  applications at synchrotron radiation facilities.'
+
+  doc_url: https://dioptas.readthedocs.io/en/stable/
+  dev_url: https://github.com/Dioptas/Dioptas
+
+extra:
+  recipe-maintainers:
+    - CPrescher

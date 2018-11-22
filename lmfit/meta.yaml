@@ -1,11 +1,10 @@
 package:
   name: lmfit
-  version: "0.9.4"
+  version: "0.9.7"
 
 source:
-  fn: lmfit-0.9.4.tar.gz
-  url: https://files.pythonhosted.org/packages/06/a0/0214bdf9d222a0c5604e2e86fbec6f969c4bea8b8e43d585e75a73729f12/lmfit-0.9.4.tar.gz
-  md5: d890f85f4263dc47360f1b32bb0c3798
+  git_url: https://github.com/lmfit/lmfit-py
+  git_rev: 0.9.7
 #  patches:
    # List any patch files here
    # - fix.patch
@@ -30,11 +29,13 @@ requirements:
   build:
     - python
     - setuptools
+    - six
     - numpy
     - scipy
 
   run:
     - python
+    - six
     - numpy
     - scipy
 
