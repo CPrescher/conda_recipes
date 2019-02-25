@@ -54,7 +54,7 @@ about:
   home: https://github.com/Dioptas/Dioptas
   license: GPL3
   license_family: GPL
-  license_file: copyright
+  license_file: license.txt
   summary: 'The silx project aims at providing a collection of Python packages
   to support the development of data assessment, reduction and analysis
   applications at synchrotron radiation facilities.'
