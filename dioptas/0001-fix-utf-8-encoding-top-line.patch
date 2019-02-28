@@ -1,0 +1,1210 @@
+From ccd063587898bb74253948b9d10658c598d1206a Mon Sep 17 00:00:00 2001
+From: Clemens Prescher <clemens.prescher@gmail.com>
+Date: Thu, 28 Feb 2019 06:59:15 +0100
+Subject: [PATCH] fix utf-8 encoding top line
+
+---
+ Dioptas.spec                                                           | 2 +-
+ dioptas/__init__.py                                                    | 2 +-
+ dioptas/controller/CalibrationController.py                            | 2 +-
+ dioptas/controller/ConfigurationController.py                          | 2 +-
+ dioptas/controller/MainController.py                                   | 2 +-
+ dioptas/controller/MaskController.py                                   | 2 +-
+ dioptas/controller/__init__.py                                         | 2 +-
+ dioptas/controller/integration/BackgroundController.py                 | 2 +-
+ dioptas/controller/integration/EpicsController.py                      | 2 +-
+ dioptas/controller/integration/ImageController.py                      | 2 +-
+ dioptas/controller/integration/IntegrationController.py                | 2 +-
+ dioptas/controller/integration/JcpdsEditorController.py                | 2 +-
+ dioptas/controller/integration/OptionsController.py                    | 2 +-
+ dioptas/controller/integration/OverlayController.py                    | 2 +-
+ dioptas/controller/integration/PatternController.py                    | 2 +-
+ dioptas/controller/integration/PhaseController.py                      | 2 +-
+ dioptas/controller/integration/__init__.py                             | 2 +-
+ dioptas/controller/integration/econfig.py                              | 2 +-
+ dioptas/model/CalibrationModel.py                                      | 2 +-
+ dioptas/model/Configuration.py                                         | 2 +-
+ dioptas/model/DioptasModel.py                                          | 2 +-
+ dioptas/model/ImgModel.py                                              | 2 +-
+ dioptas/model/MaskModel.py                                             | 2 +-
+ dioptas/model/OverlayModel.py                                          | 2 +-
+ dioptas/model/PatternModel.py                                          | 2 +-
+ dioptas/model/PhaseModel.py                                            | 2 +-
+ dioptas/model/__init__.py                                              | 2 +-
+ dioptas/model/util/BackgroundExtraction.py                             | 2 +-
+ dioptas/model/util/HelperModule.py                                     | 2 +-
+ dioptas/model/util/ImgCorrection.py                                    | 2 +-
+ dioptas/model/util/NewFileWatcher.py                                   | 2 +-
+ dioptas/model/util/Pattern.py                                          | 2 +-
+ dioptas/model/util/PeakShapes.py                                       | 2 +-
+ dioptas/model/util/__init__.py                                         | 2 +-
+ dioptas/model/util/calc.py                                             | 2 +-
+ dioptas/model/util/cif.py                                              | 2 +-
+ dioptas/model/util/smooth_bruckner_python.py                           | 2 +-
+ dioptas/model/util/spe.py                                              | 2 +-
+ dioptas/tests/Profiling/__init__.py                                    | 2 +-
+ dioptas/tests/Profiling/profiling_cbn_correction.py                    | 2 +-
+ dioptas/tests/__init__.py                                              | 2 +-
+ dioptas/tests/controller_tests/__init__.py                             | 2 +-
+ dioptas/tests/controller_tests/test_BackgroundController.py            | 2 +-
+ dioptas/tests/controller_tests/test_CalibrationController.py           | 2 +-
+ dioptas/tests/controller_tests/test_ConfigurationController.py         | 2 +-
+ dioptas/tests/controller_tests/test_EpicsController.py                 | 2 +-
+ dioptas/tests/controller_tests/test_ImageController.py                 | 2 +-
+ dioptas/tests/controller_tests/test_IntegrationBackgroundController.py | 2 +-
+ dioptas/tests/controller_tests/test_IntegrationController.py           | 2 +-
+ dioptas/tests/controller_tests/test_MaskController.py                  | 2 +-
+ dioptas/tests/controller_tests/test_OverlayController.py               | 2 +-
+ dioptas/tests/controller_tests/test_PatternController.py               | 2 +-
+ dioptas/tests/controller_tests/test_PhaseController.py                 | 2 +-
+ dioptas/tests/ehook.py                                                 | 2 +-
+ dioptas/tests/functional_tests/__init__.py                             | 2 +-
+ dioptas/tests/functional_tests/test_functional_JcpdsEditor.py          | 2 +-
+ dioptas/tests/functional_tests/test_functional_integration.py          | 2 +-
+ dioptas/tests/functional_tests/test_img_bg.py                          | 2 +-
+ dioptas/tests/functional_tests/test_save_and_load_project.py           | 2 +-
+ dioptas/tests/functional_tests/test_userinterface.py                   | 2 +-
+ dioptas/tests/run_tests.py                                             | 2 +-
+ dioptas/tests/unit_tests/__init__.py                                   | 2 +-
+ dioptas/tests/unit_tests/test_CalibrationModel.py                      | 2 +-
+ dioptas/tests/unit_tests/test_DioptasModel.py                          | 2 +-
+ dioptas/tests/unit_tests/test_FileNameIterator.py                      | 2 +-
+ dioptas/tests/unit_tests/test_HelperModule.py                          | 2 +-
+ dioptas/tests/unit_tests/test_ImgCorrections.py                        | 2 +-
+ dioptas/tests/unit_tests/test_ImgModel.py                              | 2 +-
+ dioptas/tests/unit_tests/test_Jcpds.py                                 | 2 +-
+ dioptas/tests/unit_tests/test_MaskModel.py                             | 2 +-
+ dioptas/tests/unit_tests/test_NewFileInDirectoryWatcher.py             | 2 +-
+ dioptas/tests/unit_tests/test_OverlayModel.py                          | 2 +-
+ dioptas/tests/unit_tests/test_Pattern.py                               | 2 +-
+ dioptas/tests/unit_tests/test_PatternModel.py                          | 2 +-
+ dioptas/tests/unit_tests/test_PhaseModel.py                            | 2 +-
+ dioptas/tests/unit_tests/test_background_extraction.py                 | 2 +-
+ dioptas/tests/unit_tests/test_cif.py                                   | 2 +-
+ dioptas/tests/utility.py                                               | 2 +-
+ dioptas/tests/widget_tests/__init__.py                                 | 2 +-
+ dioptas/tests/widget_tests/test_ConfigurationWidget.py                 | 2 +-
+ dioptas/tests/widget_tests/test_JcpdsEditorWidget.py                   | 2 +-
+ dioptas/widgets/CalibrationWidget.py                                   | 2 +-
+ dioptas/widgets/ConfigurationWidget.py                                 | 2 +-
+ dioptas/widgets/CustomWidgets.py                                       | 2 +-
+ dioptas/widgets/EpicsWidgets.py                                        | 2 +-
+ dioptas/widgets/MainWidget.py                                          | 2 +-
+ dioptas/widgets/MaskWidget.py                                          | 2 +-
+ dioptas/widgets/UtilityWidgets.py                                      | 2 +-
+ dioptas/widgets/__init__.py                                            | 2 +-
+ dioptas/widgets/integration/CustomWidgets.py                           | 2 +-
+ dioptas/widgets/integration/JcpdsEditorWidget.py                       | 2 +-
+ dioptas/widgets/integration/__init__.py                                | 2 +-
+ dioptas/widgets/integration/control/BackgroundWidget.py                | 2 +-
+ dioptas/widgets/integration/control/CorrectionsWidget.py               | 2 +-
+ dioptas/widgets/integration/control/ImageWidget.py                     | 2 +-
+ dioptas/widgets/integration/control/OptionsWidget.py                   | 2 +-
+ dioptas/widgets/integration/control/OverlayWidget.py                   | 2 +-
+ dioptas/widgets/integration/control/PatternWidget.py                   | 2 +-
+ dioptas/widgets/integration/control/PhaseWidget.py                     | 2 +-
+ dioptas/widgets/integration/control/__init__.py                        | 2 +-
+ dioptas/widgets/integration/display/ImgWidget.py                       | 2 +-
+ dioptas/widgets/integration/display/PatternWidget.py                   | 2 +-
+ dioptas/widgets/integration/display/StatusWidget.py                    | 2 +-
+ dioptas/widgets/plot_widgets/ExLegendItem.py                           | 2 +-
+ dioptas/widgets/plot_widgets/HistogramLUTItem.py                       | 2 +-
+ dioptas/widgets/plot_widgets/ImgWidget.py                              | 2 +-
+ dioptas/widgets/plot_widgets/PatternWidget.py                          | 2 +-
+ dioptas/widgets/plot_widgets/__init__.py                               | 2 +-
+ setup.py                                                               | 2 +-
+ 109 files changed, 109 insertions(+), 109 deletions(-)
+
+diff --git a/Dioptas.spec b/Dioptas.spec
+index 514d67c6..f8fd2084 100644
+--- a/Dioptas.spec
++++ b/Dioptas.spec
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/__init__.py b/dioptas/__init__.py
+index 5ec09352..e08d150a 100644
+--- a/dioptas/__init__.py
++++ b/dioptas/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/CalibrationController.py b/dioptas/controller/CalibrationController.py
+index 08e5b120..3d6ea856 100755
+--- a/dioptas/controller/CalibrationController.py
++++ b/dioptas/controller/CalibrationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/ConfigurationController.py b/dioptas/controller/ConfigurationController.py
+index dfd45241..ffd6e701 100644
+--- a/dioptas/controller/ConfigurationController.py
++++ b/dioptas/controller/ConfigurationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/MainController.py b/dioptas/controller/MainController.py
+index 78544acc..968c7c73 100755
+--- a/dioptas/controller/MainController.py
++++ b/dioptas/controller/MainController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/MaskController.py b/dioptas/controller/MaskController.py
+index fa01cfae..6393684c 100755
+--- a/dioptas/controller/MaskController.py
++++ b/dioptas/controller/MaskController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/__init__.py b/dioptas/controller/__init__.py
+index 849094a6..ee599f10 100755
+--- a/dioptas/controller/__init__.py
++++ b/dioptas/controller/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/BackgroundController.py b/dioptas/controller/integration/BackgroundController.py
+index e14059d8..165faa3f 100644
+--- a/dioptas/controller/integration/BackgroundController.py
++++ b/dioptas/controller/integration/BackgroundController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/EpicsController.py b/dioptas/controller/integration/EpicsController.py
+index b0717eee..e53a78b1 100644
+--- a/dioptas/controller/integration/EpicsController.py
++++ b/dioptas/controller/integration/EpicsController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray diffraction data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/ImageController.py b/dioptas/controller/integration/ImageController.py
+index c1fad91a..3efc2cba 100755
+--- a/dioptas/controller/integration/ImageController.py
++++ b/dioptas/controller/integration/ImageController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/IntegrationController.py b/dioptas/controller/integration/IntegrationController.py
+index 63fb6c0d..cc0cdd63 100755
+--- a/dioptas/controller/integration/IntegrationController.py
++++ b/dioptas/controller/integration/IntegrationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/JcpdsEditorController.py b/dioptas/controller/integration/JcpdsEditorController.py
+index 9e1431f0..83dee3df 100644
+--- a/dioptas/controller/integration/JcpdsEditorController.py
++++ b/dioptas/controller/integration/JcpdsEditorController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/OptionsController.py b/dioptas/controller/integration/OptionsController.py
+index 5ba260c5..23c8a4ea 100644
+--- a/dioptas/controller/integration/OptionsController.py
++++ b/dioptas/controller/integration/OptionsController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/OverlayController.py b/dioptas/controller/integration/OverlayController.py
+index e957f49c..2d8780ee 100755
+--- a/dioptas/controller/integration/OverlayController.py
++++ b/dioptas/controller/integration/OverlayController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/PatternController.py b/dioptas/controller/integration/PatternController.py
+index 31aa502d..b2dd0eb4 100755
+--- a/dioptas/controller/integration/PatternController.py
++++ b/dioptas/controller/integration/PatternController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/PhaseController.py b/dioptas/controller/integration/PhaseController.py
+index 29d5f197..b784a7be 100755
+--- a/dioptas/controller/integration/PhaseController.py
++++ b/dioptas/controller/integration/PhaseController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/__init__.py b/dioptas/controller/integration/__init__.py
+index d3a9e3e9..f866968f 100644
+--- a/dioptas/controller/integration/__init__.py
++++ b/dioptas/controller/integration/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/controller/integration/econfig.py b/dioptas/controller/integration/econfig.py
+index f901b75e..1d146c9c 100644
+--- a/dioptas/controller/integration/econfig.py
++++ b/dioptas/controller/integration/econfig.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/CalibrationModel.py b/dioptas/model/CalibrationModel.py
+index 2ba9419f..c62406fb 100755
+--- a/dioptas/model/CalibrationModel.py
++++ b/dioptas/model/CalibrationModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/Configuration.py b/dioptas/model/Configuration.py
+index 5f8fa3d4..dda342a1 100644
+--- a/dioptas/model/Configuration.py
++++ b/dioptas/model/Configuration.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/DioptasModel.py b/dioptas/model/DioptasModel.py
+index bfe4313d..a8025b0c 100644
+--- a/dioptas/model/DioptasModel.py
++++ b/dioptas/model/DioptasModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/ImgModel.py b/dioptas/model/ImgModel.py
+index c731ad05..a7415b1c 100755
+--- a/dioptas/model/ImgModel.py
++++ b/dioptas/model/ImgModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/MaskModel.py b/dioptas/model/MaskModel.py
+index 58b16108..5f760c88 100755
+--- a/dioptas/model/MaskModel.py
++++ b/dioptas/model/MaskModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/OverlayModel.py b/dioptas/model/OverlayModel.py
+index 40219a0f..09b2bd5d 100644
+--- a/dioptas/model/OverlayModel.py
++++ b/dioptas/model/OverlayModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/PatternModel.py b/dioptas/model/PatternModel.py
+index 5963346d..cb98d4ab 100755
+--- a/dioptas/model/PatternModel.py
++++ b/dioptas/model/PatternModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/PhaseModel.py b/dioptas/model/PhaseModel.py
+index 93414c14..1001a6c4 100755
+--- a/dioptas/model/PhaseModel.py
++++ b/dioptas/model/PhaseModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/__init__.py b/dioptas/model/__init__.py
+index ca55c2e4..9e2bbdc8 100755
+--- a/dioptas/model/__init__.py
++++ b/dioptas/model/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/BackgroundExtraction.py b/dioptas/model/util/BackgroundExtraction.py
+index 2a478a0c..0600f9ed 100644
+--- a/dioptas/model/util/BackgroundExtraction.py
++++ b/dioptas/model/util/BackgroundExtraction.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/HelperModule.py b/dioptas/model/util/HelperModule.py
+index 9c7a7fdd..4c0aba6b 100755
+--- a/dioptas/model/util/HelperModule.py
++++ b/dioptas/model/util/HelperModule.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/ImgCorrection.py b/dioptas/model/util/ImgCorrection.py
+index bc70242c..35c41153 100644
+--- a/dioptas/model/util/ImgCorrection.py
++++ b/dioptas/model/util/ImgCorrection.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/NewFileWatcher.py b/dioptas/model/util/NewFileWatcher.py
+index 0711e8f1..88db5b52 100644
+--- a/dioptas/model/util/NewFileWatcher.py
++++ b/dioptas/model/util/NewFileWatcher.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/Pattern.py b/dioptas/model/util/Pattern.py
+index f791ae76..42d5e82a 100644
+--- a/dioptas/model/util/Pattern.py
++++ b/dioptas/model/util/Pattern.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/PeakShapes.py b/dioptas/model/util/PeakShapes.py
+index dd3ce4fb..bbd5e292 100644
+--- a/dioptas/model/util/PeakShapes.py
++++ b/dioptas/model/util/PeakShapes.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/__init__.py b/dioptas/model/util/__init__.py
+index 67d10171..54b80932 100644
+--- a/dioptas/model/util/__init__.py
++++ b/dioptas/model/util/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/calc.py b/dioptas/model/util/calc.py
+index 10bd8b8d..e2f17703 100644
+--- a/dioptas/model/util/calc.py
++++ b/dioptas/model/util/calc.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/cif.py b/dioptas/model/util/cif.py
+index 719d4950..3a54c839 100644
+--- a/dioptas/model/util/cif.py
++++ b/dioptas/model/util/cif.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/smooth_bruckner_python.py b/dioptas/model/util/smooth_bruckner_python.py
+index de4242db..259e98a4 100644
+--- a/dioptas/model/util/smooth_bruckner_python.py
++++ b/dioptas/model/util/smooth_bruckner_python.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/model/util/spe.py b/dioptas/model/util/spe.py
+index eb8aa8dd..666c3b37 100644
+--- a/dioptas/model/util/spe.py
++++ b/dioptas/model/util/spe.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/Profiling/__init__.py b/dioptas/tests/Profiling/__init__.py
+index 3978ecf8..707ebb02 100644
+--- a/dioptas/tests/Profiling/__init__.py
++++ b/dioptas/tests/Profiling/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/Profiling/profiling_cbn_correction.py b/dioptas/tests/Profiling/profiling_cbn_correction.py
+index fed90783..fbaad70b 100644
+--- a/dioptas/tests/Profiling/profiling_cbn_correction.py
++++ b/dioptas/tests/Profiling/profiling_cbn_correction.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/__init__.py b/dioptas/tests/__init__.py
+index 22767dfe..3f038a93 100644
+--- a/dioptas/tests/__init__.py
++++ b/dioptas/tests/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/__init__.py b/dioptas/tests/controller_tests/__init__.py
+index 76b3deb7..52828f06 100644
+--- a/dioptas/tests/controller_tests/__init__.py
++++ b/dioptas/tests/controller_tests/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_BackgroundController.py b/dioptas/tests/controller_tests/test_BackgroundController.py
+index 6d3ad901..37bd81e8 100644
+--- a/dioptas/tests/controller_tests/test_BackgroundController.py
++++ b/dioptas/tests/controller_tests/test_BackgroundController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_CalibrationController.py b/dioptas/tests/controller_tests/test_CalibrationController.py
+index e1970a85..6e84ce6d 100644
+--- a/dioptas/tests/controller_tests/test_CalibrationController.py
++++ b/dioptas/tests/controller_tests/test_CalibrationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_ConfigurationController.py b/dioptas/tests/controller_tests/test_ConfigurationController.py
+index efb2b069..23847f13 100644
+--- a/dioptas/tests/controller_tests/test_ConfigurationController.py
++++ b/dioptas/tests/controller_tests/test_ConfigurationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_EpicsController.py b/dioptas/tests/controller_tests/test_EpicsController.py
+index b75f55c7..446070a6 100644
+--- a/dioptas/tests/controller_tests/test_EpicsController.py
++++ b/dioptas/tests/controller_tests/test_EpicsController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_ImageController.py b/dioptas/tests/controller_tests/test_ImageController.py
+index e995a29c..d3c10246 100644
+--- a/dioptas/tests/controller_tests/test_ImageController.py
++++ b/dioptas/tests/controller_tests/test_ImageController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_IntegrationBackgroundController.py b/dioptas/tests/controller_tests/test_IntegrationBackgroundController.py
+index e9c10367..2979367c 100644
+--- a/dioptas/tests/controller_tests/test_IntegrationBackgroundController.py
++++ b/dioptas/tests/controller_tests/test_IntegrationBackgroundController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_IntegrationController.py b/dioptas/tests/controller_tests/test_IntegrationController.py
+index 45f0c450..58cdfab2 100644
+--- a/dioptas/tests/controller_tests/test_IntegrationController.py
++++ b/dioptas/tests/controller_tests/test_IntegrationController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_MaskController.py b/dioptas/tests/controller_tests/test_MaskController.py
+index fcb74d56..ae299a1f 100644
+--- a/dioptas/tests/controller_tests/test_MaskController.py
++++ b/dioptas/tests/controller_tests/test_MaskController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_OverlayController.py b/dioptas/tests/controller_tests/test_OverlayController.py
+index ef0b296f..5386a04d 100644
+--- a/dioptas/tests/controller_tests/test_OverlayController.py
++++ b/dioptas/tests/controller_tests/test_OverlayController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_PatternController.py b/dioptas/tests/controller_tests/test_PatternController.py
+index 24277733..e458160d 100644
+--- a/dioptas/tests/controller_tests/test_PatternController.py
++++ b/dioptas/tests/controller_tests/test_PatternController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/controller_tests/test_PhaseController.py b/dioptas/tests/controller_tests/test_PhaseController.py
+index a9849597..a78ab37e 100644
+--- a/dioptas/tests/controller_tests/test_PhaseController.py
++++ b/dioptas/tests/controller_tests/test_PhaseController.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/ehook.py b/dioptas/tests/ehook.py
+index 965aaad1..2008fef6 100644
+--- a/dioptas/tests/ehook.py
++++ b/dioptas/tests/ehook.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/__init__.py b/dioptas/tests/functional_tests/__init__.py
+index 3978ecf8..707ebb02 100644
+--- a/dioptas/tests/functional_tests/__init__.py
++++ b/dioptas/tests/functional_tests/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/test_functional_JcpdsEditor.py b/dioptas/tests/functional_tests/test_functional_JcpdsEditor.py
+index 70f9bf67..38fff705 100644
+--- a/dioptas/tests/functional_tests/test_functional_JcpdsEditor.py
++++ b/dioptas/tests/functional_tests/test_functional_JcpdsEditor.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/test_functional_integration.py b/dioptas/tests/functional_tests/test_functional_integration.py
+index a60c1f42..8d177752 100644
+--- a/dioptas/tests/functional_tests/test_functional_integration.py
++++ b/dioptas/tests/functional_tests/test_functional_integration.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/test_img_bg.py b/dioptas/tests/functional_tests/test_img_bg.py
+index b880943c..3e445d07 100644
+--- a/dioptas/tests/functional_tests/test_img_bg.py
++++ b/dioptas/tests/functional_tests/test_img_bg.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/test_save_and_load_project.py b/dioptas/tests/functional_tests/test_save_and_load_project.py
+index c355cb36..a6612a7f 100644
+--- a/dioptas/tests/functional_tests/test_save_and_load_project.py
++++ b/dioptas/tests/functional_tests/test_save_and_load_project.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/functional_tests/test_userinterface.py b/dioptas/tests/functional_tests/test_userinterface.py
+index b1316f2c..becd6b40 100644
+--- a/dioptas/tests/functional_tests/test_userinterface.py
++++ b/dioptas/tests/functional_tests/test_userinterface.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/run_tests.py b/dioptas/tests/run_tests.py
+index c95bd5f7..d47e0a49 100644
+--- a/dioptas/tests/run_tests.py
++++ b/dioptas/tests/run_tests.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/__init__.py b/dioptas/tests/unit_tests/__init__.py
+index 76b3deb7..52828f06 100644
+--- a/dioptas/tests/unit_tests/__init__.py
++++ b/dioptas/tests/unit_tests/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_CalibrationModel.py b/dioptas/tests/unit_tests/test_CalibrationModel.py
+index 489dc7a7..1012b74e 100644
+--- a/dioptas/tests/unit_tests/test_CalibrationModel.py
++++ b/dioptas/tests/unit_tests/test_CalibrationModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_DioptasModel.py b/dioptas/tests/unit_tests/test_DioptasModel.py
+index 479a553a..07306439 100644
+--- a/dioptas/tests/unit_tests/test_DioptasModel.py
++++ b/dioptas/tests/unit_tests/test_DioptasModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_FileNameIterator.py b/dioptas/tests/unit_tests/test_FileNameIterator.py
+index eee5fca9..0c9c515f 100644
+--- a/dioptas/tests/unit_tests/test_FileNameIterator.py
++++ b/dioptas/tests/unit_tests/test_FileNameIterator.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_HelperModule.py b/dioptas/tests/unit_tests/test_HelperModule.py
+index 3a4156d1..8ce0f489 100644
+--- a/dioptas/tests/unit_tests/test_HelperModule.py
++++ b/dioptas/tests/unit_tests/test_HelperModule.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_ImgCorrections.py b/dioptas/tests/unit_tests/test_ImgCorrections.py
+index 410b5359..c695d85f 100644
+--- a/dioptas/tests/unit_tests/test_ImgCorrections.py
++++ b/dioptas/tests/unit_tests/test_ImgCorrections.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_ImgModel.py b/dioptas/tests/unit_tests/test_ImgModel.py
+index fb2c36e6..e2b67ec9 100644
+--- a/dioptas/tests/unit_tests/test_ImgModel.py
++++ b/dioptas/tests/unit_tests/test_ImgModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_Jcpds.py b/dioptas/tests/unit_tests/test_Jcpds.py
+index eeb925bb..af1c14e8 100644
+--- a/dioptas/tests/unit_tests/test_Jcpds.py
++++ b/dioptas/tests/unit_tests/test_Jcpds.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_MaskModel.py b/dioptas/tests/unit_tests/test_MaskModel.py
+index 300c3c8f..9eb10a35 100644
+--- a/dioptas/tests/unit_tests/test_MaskModel.py
++++ b/dioptas/tests/unit_tests/test_MaskModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_NewFileInDirectoryWatcher.py b/dioptas/tests/unit_tests/test_NewFileInDirectoryWatcher.py
+index 9d96d277..3dfb9531 100644
+--- a/dioptas/tests/unit_tests/test_NewFileInDirectoryWatcher.py
++++ b/dioptas/tests/unit_tests/test_NewFileInDirectoryWatcher.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_OverlayModel.py b/dioptas/tests/unit_tests/test_OverlayModel.py
+index 1e5e5c09..b4bf93c5 100644
+--- a/dioptas/tests/unit_tests/test_OverlayModel.py
++++ b/dioptas/tests/unit_tests/test_OverlayModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_Pattern.py b/dioptas/tests/unit_tests/test_Pattern.py
+index af411f15..af7f15b4 100644
+--- a/dioptas/tests/unit_tests/test_Pattern.py
++++ b/dioptas/tests/unit_tests/test_Pattern.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_PatternModel.py b/dioptas/tests/unit_tests/test_PatternModel.py
+index ca4983c2..49ad4c7a 100644
+--- a/dioptas/tests/unit_tests/test_PatternModel.py
++++ b/dioptas/tests/unit_tests/test_PatternModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_PhaseModel.py b/dioptas/tests/unit_tests/test_PhaseModel.py
+index e0aab4b1..abf66b41 100644
+--- a/dioptas/tests/unit_tests/test_PhaseModel.py
++++ b/dioptas/tests/unit_tests/test_PhaseModel.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_background_extraction.py b/dioptas/tests/unit_tests/test_background_extraction.py
+index 2834cb60..654262f7 100644
+--- a/dioptas/tests/unit_tests/test_background_extraction.py
++++ b/dioptas/tests/unit_tests/test_background_extraction.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/unit_tests/test_cif.py b/dioptas/tests/unit_tests/test_cif.py
+index 7c9fa70b..0e9acdda 100644
+--- a/dioptas/tests/unit_tests/test_cif.py
++++ b/dioptas/tests/unit_tests/test_cif.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/utility.py b/dioptas/tests/utility.py
+index 1c7f8275..c351dccc 100644
+--- a/dioptas/tests/utility.py
++++ b/dioptas/tests/utility.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/widget_tests/__init__.py b/dioptas/tests/widget_tests/__init__.py
+index 76b3deb7..52828f06 100644
+--- a/dioptas/tests/widget_tests/__init__.py
++++ b/dioptas/tests/widget_tests/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/widget_tests/test_ConfigurationWidget.py b/dioptas/tests/widget_tests/test_ConfigurationWidget.py
+index fe5da064..fc4a03e8 100644
+--- a/dioptas/tests/widget_tests/test_ConfigurationWidget.py
++++ b/dioptas/tests/widget_tests/test_ConfigurationWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/tests/widget_tests/test_JcpdsEditorWidget.py b/dioptas/tests/widget_tests/test_JcpdsEditorWidget.py
+index 2b70b50e..4484a86d 100644
+--- a/dioptas/tests/widget_tests/test_JcpdsEditorWidget.py
++++ b/dioptas/tests/widget_tests/test_JcpdsEditorWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/CalibrationWidget.py b/dioptas/widgets/CalibrationWidget.py
+index 5fd94460..65d79b99 100644
+--- a/dioptas/widgets/CalibrationWidget.py
++++ b/dioptas/widgets/CalibrationWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/ConfigurationWidget.py b/dioptas/widgets/ConfigurationWidget.py
+index 90c60acf..79a0e299 100644
+--- a/dioptas/widgets/ConfigurationWidget.py
++++ b/dioptas/widgets/ConfigurationWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/CustomWidgets.py b/dioptas/widgets/CustomWidgets.py
+index 4fb8b27f..a0e5af22 100644
+--- a/dioptas/widgets/CustomWidgets.py
++++ b/dioptas/widgets/CustomWidgets.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray diffraction data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/EpicsWidgets.py b/dioptas/widgets/EpicsWidgets.py
+index 8da1d51d..e0cd9dd6 100644
+--- a/dioptas/widgets/EpicsWidgets.py
++++ b/dioptas/widgets/EpicsWidgets.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/MainWidget.py b/dioptas/widgets/MainWidget.py
+index 974c6c5f..443ec2cb 100644
+--- a/dioptas/widgets/MainWidget.py
++++ b/dioptas/widgets/MainWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/MaskWidget.py b/dioptas/widgets/MaskWidget.py
+index 73c8af56..bff90d53 100644
+--- a/dioptas/widgets/MaskWidget.py
++++ b/dioptas/widgets/MaskWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray diffraction data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/UtilityWidgets.py b/dioptas/widgets/UtilityWidgets.py
+index ff01f73b..f5e5794d 100644
+--- a/dioptas/widgets/UtilityWidgets.py
++++ b/dioptas/widgets/UtilityWidgets.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/__init__.py b/dioptas/widgets/__init__.py
+index 22767dfe..3f038a93 100644
+--- a/dioptas/widgets/__init__.py
++++ b/dioptas/widgets/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/CustomWidgets.py b/dioptas/widgets/integration/CustomWidgets.py
+index 99fcc54f..cac0a139 100644
+--- a/dioptas/widgets/integration/CustomWidgets.py
++++ b/dioptas/widgets/integration/CustomWidgets.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/JcpdsEditorWidget.py b/dioptas/widgets/integration/JcpdsEditorWidget.py
+index 53bc4cff..c83cbf9f 100644
+--- a/dioptas/widgets/integration/JcpdsEditorWidget.py
++++ b/dioptas/widgets/integration/JcpdsEditorWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/__init__.py b/dioptas/widgets/integration/__init__.py
+index 36765e99..f447a354 100644
+--- a/dioptas/widgets/integration/__init__.py
++++ b/dioptas/widgets/integration/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/BackgroundWidget.py b/dioptas/widgets/integration/control/BackgroundWidget.py
+index 7d389887..f79bd808 100644
+--- a/dioptas/widgets/integration/control/BackgroundWidget.py
++++ b/dioptas/widgets/integration/control/BackgroundWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/CorrectionsWidget.py b/dioptas/widgets/integration/control/CorrectionsWidget.py
+index 60a66aa7..069e8c53 100644
+--- a/dioptas/widgets/integration/control/CorrectionsWidget.py
++++ b/dioptas/widgets/integration/control/CorrectionsWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/ImageWidget.py b/dioptas/widgets/integration/control/ImageWidget.py
+index 6cbb224a..95c08a12 100644
+--- a/dioptas/widgets/integration/control/ImageWidget.py
++++ b/dioptas/widgets/integration/control/ImageWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/OptionsWidget.py b/dioptas/widgets/integration/control/OptionsWidget.py
+index ba7cfcea..3b91ae78 100644
+--- a/dioptas/widgets/integration/control/OptionsWidget.py
++++ b/dioptas/widgets/integration/control/OptionsWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/OverlayWidget.py b/dioptas/widgets/integration/control/OverlayWidget.py
+index da3c94f1..0ba53764 100644
+--- a/dioptas/widgets/integration/control/OverlayWidget.py
++++ b/dioptas/widgets/integration/control/OverlayWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/PatternWidget.py b/dioptas/widgets/integration/control/PatternWidget.py
+index cb98086e..9ff28bbe 100644
+--- a/dioptas/widgets/integration/control/PatternWidget.py
++++ b/dioptas/widgets/integration/control/PatternWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/PhaseWidget.py b/dioptas/widgets/integration/control/PhaseWidget.py
+index a416cd0f..27e07523 100644
+--- a/dioptas/widgets/integration/control/PhaseWidget.py
++++ b/dioptas/widgets/integration/control/PhaseWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/control/__init__.py b/dioptas/widgets/integration/control/__init__.py
+index 6fe9aaae..09591b9a 100644
+--- a/dioptas/widgets/integration/control/__init__.py
++++ b/dioptas/widgets/integration/control/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/display/ImgWidget.py b/dioptas/widgets/integration/display/ImgWidget.py
+index a7118d70..f679e18e 100644
+--- a/dioptas/widgets/integration/display/ImgWidget.py
++++ b/dioptas/widgets/integration/display/ImgWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/display/PatternWidget.py b/dioptas/widgets/integration/display/PatternWidget.py
+index 942e427b..926ec446 100644
+--- a/dioptas/widgets/integration/display/PatternWidget.py
++++ b/dioptas/widgets/integration/display/PatternWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/integration/display/StatusWidget.py b/dioptas/widgets/integration/display/StatusWidget.py
+index 0c6ae001..48eb4f72 100644
+--- a/dioptas/widgets/integration/display/StatusWidget.py
++++ b/dioptas/widgets/integration/display/StatusWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/plot_widgets/ExLegendItem.py b/dioptas/widgets/plot_widgets/ExLegendItem.py
+index 84eaa0e4..a4074924 100644
+--- a/dioptas/widgets/plot_widgets/ExLegendItem.py
++++ b/dioptas/widgets/plot_widgets/ExLegendItem.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/plot_widgets/HistogramLUTItem.py b/dioptas/widgets/plot_widgets/HistogramLUTItem.py
+index 8db3ba20..d5285421 100644
+--- a/dioptas/widgets/plot_widgets/HistogramLUTItem.py
++++ b/dioptas/widgets/plot_widgets/HistogramLUTItem.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/plot_widgets/ImgWidget.py b/dioptas/widgets/plot_widgets/ImgWidget.py
+index 88d588f8..8c40b51a 100644
+--- a/dioptas/widgets/plot_widgets/ImgWidget.py
++++ b/dioptas/widgets/plot_widgets/ImgWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/plot_widgets/PatternWidget.py b/dioptas/widgets/plot_widgets/PatternWidget.py
+index 567d4b3f..261a8844 100644
+--- a/dioptas/widgets/plot_widgets/PatternWidget.py
++++ b/dioptas/widgets/plot_widgets/PatternWidget.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/dioptas/widgets/plot_widgets/__init__.py b/dioptas/widgets/plot_widgets/__init__.py
+index 61eb89e3..691a684b 100644
+--- a/dioptas/widgets/plot_widgets/__init__.py
++++ b/dioptas/widgets/plot_widgets/__init__.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ # Dioptas - GUI program for fast processing of 2D X-ray data
+ # Copyright (C) 2017  Clemens Prescher (clemens.prescher@gmail.com)
+ # Institute for Geology and Mineralogy, University of Cologne
+diff --git a/setup.py b/setup.py
+index 7bfbc03c..c3d8a786 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,4 +1,4 @@
+-# -*- coding: utf8 -*-
++# -*- coding: utf-8 -*-
+ from setuptools import find_packages
+ from numpy.distutils.core import Extension, setup
+ 
+-- 
+2.11.0.windows.1
+

@@ -9,9 +9,11 @@ package:
 source:
   url: https://github.com/Dioptas/{{ name }}/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-fix-utf-8-encoding-top-line.patch
 
 build:
-  number: 0
+  number: 1
   script: python setup.py build install --single-version-externally-managed --record record.txt
 
 requirements:
