@@ -1,6 +1,6 @@
 {% set name = "Dioptas" %}
-{% set version = "0.4.1" %}
-{% set sha256 = "5911464f2141f19720d8b987796d86344602737c9e4c34309d0b0dfd2b32d90b" %}
+{% set version = "0.5.0" %}
+{% set sha256 = "3333bf1f6c3c31294c8a8d6294c9232796d0f53e24095c2304ab76ca5bd9514e" %}
 
 package:
   name: {{ name|lower }}
@@ -9,8 +9,6 @@ package:
 source:
   url: https://github.com/Dioptas/{{ name }}/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    - 0001-fix-utf-8-encoding-top-line.patch
 
 build:
   number: 1
@@ -31,11 +29,12 @@ requirements:
     - future
     - scikit-image
     - qtpy
+    - cython
 
   run:
     - python
     - setuptools
-    - numpy
+    - numpy<=1.15
     - scipy
     - pyqt
     - pyqtgraph
