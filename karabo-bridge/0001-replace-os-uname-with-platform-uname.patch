@@ -1,0 +1,25 @@
+From ca88d2e87a7697c136c41b20575d39f98a8d6a93 Mon Sep 17 00:00:00 2001
+From: Clemens Prescher <clemens.prescher@gmail.com>
+Date: Sat, 14 Sep 2019 11:34:51 +0200
+Subject: [PATCH] replace os uname with platform uname
+
+---
+ karabo_bridge/simulation.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/karabo_bridge/simulation.py b/karabo_bridge/simulation.py
+index ca3d1c6..015fcc6 100644
+--- a/karabo_bridge/simulation.py
++++ b/karabo_bridge/simulation.py
+@@ -11,7 +11,7 @@ program. If not, see <https://opensource.org/licenses/BSD-3-Clause>
+ """
+ 
+ from functools import partial
+-from os import uname
++from platform import uname
+ import pickle
+ from time import time
+ from threading import Thread
+-- 
+2.11.0.windows.1
+

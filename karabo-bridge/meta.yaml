@@ -1,0 +1,58 @@
+{% set name = "karabo_bridge" %}
+{% set version = "0.3.0" %}
+
+package:
+  name: "karabo-bridge"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: "72cd8534b7c1987bab8266da247bd8fdb1e460eb434b59a8764aa5868834639a"
+  patches:
+    - 0001-replace-os-uname-with-platform-uname.patch
+
+build:
+  number: 0
+  noarch: python
+  entry_points:
+    - karabo-bridge-glimpse=karabo_bridge.cli.glimpse:main
+    - karabo-bridge-monitor=karabo_bridge.cli.monitor:main
+    - karabo-bridge-server-sim=karabo_bridge.cli.simulation:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - msgpack >=0.5.4
+    - msgpack-numpy
+    - numpy
+    - python
+    - pyzmq >=17.0.0
+  run:
+    - msgpack >=0.5.4
+    - msgpack-numpy
+    - numpy
+    - python
+    - pyzmq >=17.0.0
+    - h5py
+
+test:
+  imports:
+    - karabo_bridge
+    - karabo_bridge.cli
+  commands:
+    - karabo-bridge-glimpse --help
+    - karabo-bridge-monitor --help
+    - karabo-bridge-server-sim --help
+
+about:
+  home: "https://github.com/European-XFEL/karabo-bridge-py"
+  license: "BSD"
+  license_family: "BSD"
+  license_file: ""
+  summary: "Python 3 tools to request data from the Karabo controlsystem."
+  doc_url: ""
+  dev_url: ""
+
+extra:
+  recipe-maintainers:
+    - CPrescher

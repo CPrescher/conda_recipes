@@ -1,0 +1,77 @@
+{% set name = "karabo_data" %}
+{% set version = "0.6.2" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: "5642aba21df9527d90b7693de082c8b86022adfa8e8b16466ecb8f1e77b12c77"
+
+build:
+  number: 0
+  entry_points:
+    - lsxfel = karabo_data.lsxfel:main
+    - karabo-bridge-serve-files = karabo_data.export:main
+    - karabo-data-validate = karabo_data.validation:main
+    - karabo-data-make-virtual-cxi = karabo_data.cli.make_virtual_cxi:main
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - cfelpyutils >=0.92
+    - fabio
+    - h5py >=2.7.1
+    - karabo-bridge
+    - matplotlib
+    - msgpack >=0.5.4
+    - msgpack-numpy >=0.4.3
+    - numpy
+    - pandas
+    - pip
+    - python
+    - pyzmq >=17.0.0
+    - scipy
+    - xarray
+  run:
+    - cfelpyutils >=0.92
+    - fabio
+    - h5py >=2.7.1
+    - karabo-bridge
+    - matplotlib
+    - msgpack >=0.5.4
+    - msgpack-numpy >=0.4.3
+    - numpy
+    - pandas
+    - python
+    - pyzmq >=17.0.0
+    - scipy
+    - xarray
+
+test:
+  imports:
+    - karabo_data
+    - karabo_data.cli
+    - karabo_data.geometry2
+    - karabo_data.tests
+    - karabo_data.tests.cli
+    - karabo_data.tests.mockdata
+  commands:
+    - lsxfel --help
+    - karabo-bridge-serve-files --help
+    - karabo-data-validate --help
+    - karabo-data-make-virtual-cxi --help
+
+about:
+  home: "https://github.com/European-XFEL/karabo_data"
+  license: "BSD"
+  license_family: "BSD"
+  license_file: ""
+  summary: "Tools to read and analyse data from European XFEL"
+  doc_url: ""
+  dev_url: ""
+
+extra:
+  recipe-maintainers:
+    - CPrescher

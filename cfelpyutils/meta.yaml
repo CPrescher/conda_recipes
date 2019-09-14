@@ -1,0 +1,42 @@
+{% set name = "cfelpyutils" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: "bc0e9f9c396cf9d04bacdde71fc792fde31415be3cd880c810aa4378e0a0eed3"
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - future
+    - numpy
+    - pip
+    - python
+  run:
+    - future
+    - numpy
+    - python
+
+test:
+  imports:
+    - cfelpyutils
+
+about:
+  home: "https://github.com/ondateam/cfelpyutils"
+  license: "GNU General Public v3 or later (GPLv3+)"
+  license_family: "GPL3"
+  license_file: ""
+  summary: "Utility functions and classes for CFEL software projects"
+  doc_url: ""
+  dev_url: ""
+
+extra:
+  recipe-maintainers:
+    - CPrescher
