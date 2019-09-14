@@ -1,15 +1,18 @@
+{% set name = "pyfai" %}
+{% set version = "0.18.0" %}
+{% set sha256 = "4637eaa40a5a3b10c97ef0fea9e6f935c4ae93eb8df48643d567db7796cb3ef8" %}
+
 package:
-  name: pyfai
-  version: 0.17.0
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/silx-kit/pyFAI.git
-  git_rev: v0.17.0 
+  fn: v{{ version }}.tar.gz
+  url: https://github.com/silx-kit/pyFAI/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
   number: 1
-  script: python setup.py build install  # [linux or win]
-  script: python setup.py build --no-openmp  && python setup.py install  # [osx]
   entry_points:
     - check_calib = pyFAI.app.check_calib:main
     - detector2nexus = pyFAI.app.detector2nexus:main
@@ -26,8 +29,12 @@ build:
     - pyFAI-recalib = pyFAI.app.recalib:main
     - pyFAI-saxs = pyFAI.app.saxs:main
     - pyFAI-waxs = pyFAI.app.waxs:main
+  skip: True  # [py2k and win]
 
 requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
     - python
     - setuptools
@@ -36,10 +43,11 @@ requirements:
     - scipy
     - fabio
     - h5py
+    - pip
 
   run:
     - python
-    - numpy
+    - {{ pin_compatible('numpy') }}
     - fabio
     - scipy
     - h5py
@@ -54,8 +62,9 @@ test:
     - pyFAI.test
     - pyFAI.third_party
     - pyFAI.gui
-  commands:
-    - pyFAI-calib -h
+# Bring these back when CDT/yum stuff is done
+#  commands:
+#    - pyFAI-calib -h
 
 about:
   home: https://github.com/silx-kit/pyFAI/
@@ -73,4 +82,11 @@ about:
     tools to calibrate the experimental setup using Debye-Scherrer rings of a
     reference compound.
   doc_url: http://pythonhosted.org/pyFAI/
-dev_url: https://github.com/silx-kit/pyFAI/
+  dev_url: https://github.com/silx-kit/pyFAI/
+
+extra:
+  recipe-maintainers:
+    - CJ-Wright
+    - tacaswell
+    - chiahaoliu
+    - tschoonj
