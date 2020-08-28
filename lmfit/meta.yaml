@@ -1,68 +1,44 @@
+{% set version = "1.0.1" %}
+
 package:
   name: lmfit
-  version: "0.9.7"
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/lmfit/lmfit-py
-  git_rev: 0.9.7
-#  patches:
-   # List any patch files here
-   # - fix.patch
+  url: https://github.com/lmfit/lmfit-py/archive/{{ version }}.tar.gz
+  sha256: d271096aede53830a3af3017f5cccd742e8f23445187f5ba1595e07ae1b980aa
 
-# build:
-  # noarch_python: True
-  # preserve_egg_dir: True
-  # entry_points:
-    # Put any entry points (scripts to be generated automatically) here. The
-    # syntax is module:function.  For example
-    #
-    # - lmfit = lmfit:main
-    #
-    # Would create an entry point called lmfit that calls lmfit.main()
-
-
-  # If this is a new build for the same version, increment the build
-  # number. If you do not include this key, it defaults to 0.
-  # number: 1
+build:
+  number: 1
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
-  build:
-    - python
-    - setuptools
-    - six
-    - numpy
-    - scipy
-
+  host:
+    - python >=3.5
+    - pip
   run:
-    - python
-    - six
-    - numpy
-    - scipy
+    - python >=3.5
+    - numpy >=1.16
+    - scipy >=1.2
+    - uncertainties >=3.0.1
+    - asteval >=0.9.16
 
 test:
-  # Python imports
   imports:
     - lmfit
-    - lmfit.ui
-    - lmfit.uncertainties
-
-  # commands:
-    # You can put test commands to be run here.  Use this to test that the
-    # entry points work.
-
-
-  # You can also put a file called run_test.py in the recipe that will be run
-  # at test time.
-
-  # requires:
-    # Put any additional test requirements here.  For example
-    # - nose
 
 about:
   home: http://lmfit.github.io/lmfit-py/
-  license: BSD
-  summary: 'Least-Squares Minimization with Bounds and Constraints'
-
-# See
-# http://docs.continuum.io/conda/build.html for
-# more information about meta.yaml
+  license: BSD-3-Clause
+  license_file: LICENSE
+  license_family: BSD
+  summary: >
+    Non-Linear Least Squares Minimization, with flexible Parameter settings, based on scipy.optimize.leastsq, and with many additional classes and methods for curve fitting http:/lmfit.github.io/lmfit-py/
+extra:
+  recipe-maintainers:
+    - tacaswell
+    - licode
+    - newville
+    - danielballan
+    - tritemio

@@ -1,3 +1,10 @@
+conda build asteval
+conda build uncertainties
+conda build lmfit
+conda build silx
+conda build pycifrw
+conda build glymur
+conda build hdf5plugin
 conda build fabio
 conda build pyfai
 conda build pyqtgraph

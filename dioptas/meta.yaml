@@ -1,6 +1,6 @@
 {% set name = "Dioptas" %}
-{% set version = "0.5.0" %}
-{% set sha256 = "3333bf1f6c3c31294c8a8d6294c9232796d0f53e24095c2304ab76ca5bd9514e" %}
+{% set version = "0.5.1" %}
+{% set sha256 = "531d2e1cea1fee0cbf2a795acfa1a0d1e6df80cb7105bdb91ab0cc8531d0af1d" %}
 
 package:
   name: {{ name|lower }}

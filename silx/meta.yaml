@@ -1,47 +1,73 @@
+{% set name = "silx" %}
+{% set version = "0.13.1" %}
+{% set sha256 = "8fbde3de6d8ef651dde487f662806b1814167173fca635405f979a52b1369d92" %}
+
 package:
-  name: silx
-  version: 0.9.0
+  name: silx-base
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/silx-kit/silx.git
-  git_rev: v0.9.0 
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
-  number: 1
-  script: python setup.py build install --single-version-externally-managed --record record.txt
+  number: 0
 
-requirements:
-  host:
-    - python
-    - setuptools
-    - numpy
-    - cython
+outputs:
+  - name: silx-base
+    script: build_base.bat  # [win]
+    script: build_base.sh  # [not win]
+    build:
+      entry_points:
+        - silx = silx.__main__:main
 
-  run:
-    - python
-    - setuptools
-    - numpy
-    - fabio >=0.4
-    - h5py
-    - mako
-    - ipython
-    - qtconsole
-    - matplotlib >=1.2.0
-    - pyopengl
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - cython
+        - pip
+        - python
+        - setuptools
+        - numpy >=1.12
+      run:
+        - python
+        - setuptools
+        - {{ pin_compatible('numpy') }}
+        - fabio >=0.9
+        - h5py
+        - six
 
-test:
-  imports:
-    - silx
-    - silx.test
+    test:
+      imports:
+        - silx
+        - silx.test
+
+  - name: silx
+    build:
+      noarch: generic
+    requirements:
+      run:
+        - {{ pin_subpackage('silx-base', max_pin="x.x.x.x") }}
+        - mako
+        - ipython
+        - qtconsole
+        - matplotlib
+        - python-dateutil
+        - pyqt
+        - scipy
+        - pillow
+        # optional dep causing lots of problems
+        #- pyopengl
 
 about:
   home: https://github.com/silx-kit/silx
   license: MIT
   license_family: MIT
   license_file: copyright
-  summary: 'The silx project aims at providing a collection of Python packages
-  to support the development of data assessment, reduction and analysis
-  applications at synchrotron radiation facilities.'
+  summary: The silx project aims at providing a collection of Python packages to support the development of data assessment, reduction and analysis applications at synchrotron radiation facilities.
 
   description: |
     The silx project aims at providing a collection of Python packages to
@@ -49,5 +75,12 @@ about:
     applications at synchrotron radiation facilities. It aims at providing
     reading/writing different file formats, data reduction routines and a set
     of Qt widgets to browse and visualize data.
-  doc_url: https://pythonhosted.org/silx/
-dev_url: https://github.com/silx-kit/silx
+  doc_url: http://www.silx.org/doc/silx/latest/
+  dev_url: https://github.com/silx-kit/silx
+
+extra:
+  recipe-maintainers:
+    - CJ-Wright
+    - tschoonj
+    - vallsv
+    - t20100
