@@ -1,0 +1,52 @@
+{% set version = "0.9.2" %}
+
+package:
+  name: glymur
+  version: {{ version }}
+
+source:
+  fn: Glymur-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/G/Glymur/Glymur-{{ version }}.tar.gz
+  sha256: 8cb539815865fac675442f30089b323229aa1078a5ace8df5c0a525a980ffc44
+
+build:
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  entry_points:
+    - jp2dump=glymur.command_line:main
+
+requirements:
+  build:
+    - python >=3.6
+    - pip
+  run:
+    - python >=3.6
+    - setuptools
+    - numpy
+    - lxml
+    - gdal
+    - openjpeg >=2.1.1
+
+test:
+  # Python imports
+  imports:
+    - glymur
+    - glymur.data
+    - glymur.lib
+
+  commands:
+    - python -c "import glymur; j = glymur.Jp2k(glymur.data.nemo()); print(j)"
+    - jp2dump --help
+
+about:
+  home: https://github.com/quintusdias/glymur
+  license: MIT
+  license_file: LICENSE.txt
+  summary: Tools for accessing JPEG2000 files
+
+extra:
+  recipe-maintainers:
+    - cadair
+    - ehsteve
+    - quintusdias
