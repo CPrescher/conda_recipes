@@ -1,62 +1,53 @@
+{% set name = "PyCifRW" %}
+{% set version = "4.4.1" %}
+{% set sha256 = "cef7662f475e0eb78a55c2d55774d474e888c96b0539e5f08550afa902cdc4e1" %}
+
 package:
-  name: pycifrw
-  version: "4.4"
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  fn: PyCifRW-4.4.tar.gz
-  url: https://files.pythonhosted.org/packages/4c/ab/b4842d450c06104c3f037c391a1ac5165e677b1226b44bc47a0b9cbc1bd3/PyCifRW-4.4.tar.gz
-  sha5: f365ed97991738a99722e08afe772fe197bf7f40dfc0a210d524e7742ad81ff8
-#  patches:
-   # List any patch files here
-   # - fix.patch
+  fn: {{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
-# build:
-  # noarch_python: True
-  # preserve_egg_dir: True
-  # entry_points:
-    # Put any entry points (scripts to be generated automatically) here. The
-    # syntax is module:function.  For example
-    #
-    # - pycifrw = pycifrw:main
-    #
-    # Would create an entry point called pycifrw that calls pycifrw.main()
-
-
-  # If this is a new build for the same version, increment the build
-  # number. If you do not include this key, it defaults to 0.
-  # number: 1
+build:
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
   build:
+    - {{ compiler('c') }}
+  host:
     - python
     - setuptools
-
   run:
     - python
 
 test:
-  # Python imports
   imports:
-    - CifFile
-    - CifFile.drel
-
-  # commands:
-    # You can put test commands to be run here.  Use this to test that the
-    # entry points work.
-
-
-  # You can also put a file called run_test.py in the recipe that will be run
-  # at test time.
-
-  # requires:
-    # Put any additional test requirements here.  For example
-    # - nose
+    - CifFile.StarFile
+    - CifFile.StarScan
 
 about:
   home: https://bitbucket.org/jamesrhester/pycifrw/overview
-  license: Python Software Foundation License
-  summary: 'CIF/STAR file support for Python'
+  license: PSF-2-like
+  license_family: other
+  license_file: LICENSE
+  summary: 'CIF file support for Python'
 
-# See
-# http://docs.continuum.io/conda/build.html for
-# more information about meta.yaml
+  description: |
+    PyCIFRW provides support for reading and writing CIF (Crystallographic
+    Information Format) files using Python. It was developed at the Australian
+    National Beamline Facility (ANBF), run by the Australian Synchrotron
+    Research Program (ASRP), as part of a larger project to provide CIF
+    input/output capabilities for data collection. It is now (Mar 2017)
+    maintained and developed within the Australian Nuclear Science and
+    Technology Organisation (ANSTO).
+  doc_url: https://bitbucket.org/jamesrhester/pycifrw/overview
+  dev_url: https://bitbucket.org/jamesrhester/pycifrw/overview
+
+extra:
+  recipe-maintainers:
+    - CJ-Wright
+    - pavoljuhas

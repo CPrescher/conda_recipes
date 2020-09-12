@@ -1,5 +1,5 @@
 {% set name = "karabo_bridge" %}
-{% set version = "0.3.0" %}
+{% set version = "0.6.0" %}
 
 package:
   name: "karabo-bridge"
@@ -7,9 +7,7 @@ package:
 
 source:
   url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: "72cd8534b7c1987bab8266da247bd8fdb1e460eb434b59a8764aa5868834639a"
-  patches:
-    - 0001-replace-os-uname-with-platform-uname.patch
+  sha256: "6264e91d8d6f82dd428440ac0df76322febc6a24cf2db149c07e4131c8d47560"
 
 build:
   number: 0

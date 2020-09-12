@@ -1,5 +1,5 @@
 {% set name = "karabo_data" %}
-{% set version = "0.6.2" %}
+{% set version = "0.7.0" %}
 
 package:
   name: "karabo-data"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: "5642aba21df9527d90b7693de082c8b86022adfa8e8b16466ecb8f1e77b12c77"
+  sha256: "4c2d989cad4a52f0e5fa19dcf41f9021bbd35b08b98e0f015db7d5153e6a51fc"
 
 build:
   number: 0
@@ -20,32 +20,32 @@ build:
 
 requirements:
   host:
-    - cfelpyutils >=0.92
+    - cfelpyutils
     - fabio
-    - h5py >=2.7.1
+    - h5py
     - karabo-bridge
     - matplotlib
-    - msgpack >=0.5.4
-    - msgpack-numpy >=0.4.3
+    - msgpack
+    - msgpack-numpy
     - numpy
     - pandas
     - pip
     - python
-    - pyzmq >=17.0.0
+    - pyzmq 
     - scipy
     - xarray
   run:
-    - cfelpyutils >=0.92
+    - cfelpyutils 
     - fabio
-    - h5py >=2.7.1
+    - h5py
     - karabo-bridge
     - matplotlib
-    - msgpack >=0.5.4
-    - msgpack-numpy >=0.4.3
+    - msgpack
+    - msgpack-numpy 
     - numpy
     - pandas
     - python
-    - pyzmq >=17.0.0
+    - pyzmq 
     - scipy
     - xarray
 
